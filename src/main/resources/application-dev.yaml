@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: ecommerce
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dentalconnect
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: false
+
+
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: ${APP_EMAIL}
+#    password: ${APP_PASSWORD}
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+
+jwt:
+  private-key-path: classpath:keys/private.pem
+  public-key-path: classpath:keys/public.pem
