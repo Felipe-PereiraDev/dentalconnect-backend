@@ -74,9 +74,9 @@ public class User implements UserDetails {
         this.passwordUpdatedAt = LocalDate.now();
     }
 
-    //    @OneToOne
-//    @JoinColumn(name = "person_id", nullable = false,foreignKey = @ForeignKey(name = "person_fk", value = ConstraintMode.CONSTRAINT))
-//    private Person person;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "person_id", nullable = false,foreignKey = @ForeignKey(name = "person_fk", value = ConstraintMode.CONSTRAINT))
+    private Person person;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
