@@ -14,7 +14,9 @@ public class Specialty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String description;
 
     public Specialty(String name, String description) {

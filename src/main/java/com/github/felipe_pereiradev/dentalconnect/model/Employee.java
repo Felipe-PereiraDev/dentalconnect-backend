@@ -18,7 +18,7 @@ public class Employee extends Person {
     private String jobTitle;
 
     @ManyToOne
-    @JoinColumn(name = "clinic_id",foreignKey = @ForeignKey(name = "clinic_fk", value = ConstraintMode.CONSTRAINT))
+    @JoinColumn(name = "clinic_id", nullable = false, foreignKey = @ForeignKey(name = "clinic_fk", value = ConstraintMode.CONSTRAINT))
     private Clinic clinic;
 
     @Column(name = "active", nullable = false)

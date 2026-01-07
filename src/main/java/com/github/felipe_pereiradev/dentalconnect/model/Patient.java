@@ -1,21 +1,28 @@
 package com.github.felipe_pereiradev.dentalconnect.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "patients", uniqueConstraints = @UniqueConstraint(name = "specialty_name_uk", columnNames = {"name"}))
+@Table(name = "patients", uniqueConstraints = {
+        @UniqueConstraint(name = "specialty_name_uk", columnNames = {"name"}),
+        @UniqueConstraint(name = "patients_address_uk", columnNames = {"address_id"}),
+        @UniqueConstraint(name = "patients_cpf_uk", columnNames = {"cpf"})
+})
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Patient {
+@PrimaryKeyJoinColumn(name = "id", foreignKey = @ForeignKey(name = "patient_fk", value = ConstraintMode.CONSTRAINT))
+public class Patient extends Person{
 
-    @ManyToOne
-    private HealthPlan healthPlan;
+    @Column(name = "cpf", nullable = false, length = 11)
+    private String cpf;
+
+    @OneToOne
+    @JoinColumn(name = "address_id", nullable = false, foreignKey = @ForeignKey(name = "address_fk", value = ConstraintMode.CONSTRAINT))
+    private Address address;
+
 }

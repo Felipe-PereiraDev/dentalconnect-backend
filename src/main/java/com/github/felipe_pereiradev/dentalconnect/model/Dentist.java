@@ -23,7 +23,7 @@ public class Dentist extends Person{
     private String licenseNumber;
 
     @ManyToOne
-    @JoinColumn(name = "clinic_id",foreignKey = @ForeignKey(name = "clinic_fk", value = ConstraintMode.CONSTRAINT))
+    @JoinColumn(name = "clinic_id", nullable = false,foreignKey = @ForeignKey(name = "clinic_fk", value = ConstraintMode.CONSTRAINT))
     private Clinic clinic;
 
     @ManyToMany
@@ -47,4 +47,7 @@ public class Dentist extends Person{
             )
     )
     private List<Specialty> specialtyList = new ArrayList<>();
+
+    @Column(name = "active", nullable = false)
+    private boolean active = true;
 }
