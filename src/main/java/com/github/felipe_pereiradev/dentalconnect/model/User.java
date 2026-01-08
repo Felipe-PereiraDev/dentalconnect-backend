@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -36,6 +37,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @LastModifiedDate
     @Column(name = "password_updated_at", nullable = false)
     private LocalDate passwordUpdatedAt;
 
@@ -74,9 +76,12 @@ public class User implements UserDetails {
         this.passwordUpdatedAt = LocalDate.now();
     }
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "person_id", nullable = false,foreignKey = @ForeignKey(name = "person_fk", value = ConstraintMode.CONSTRAINT))
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Person person;
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

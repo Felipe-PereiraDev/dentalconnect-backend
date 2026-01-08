@@ -25,11 +25,10 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Void> createPersonFisica(@RequestBody @Validated UserRegister data) {
-        User userResponse = userService.createUser(data);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("/{id}")
-                .buildAndExpand(userResponse.getId())
+                .buildAndExpand(1)
                 .toUri();
         return ResponseEntity.created(uri).build();
     }

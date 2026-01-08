@@ -1,6 +1,7 @@
 package com.github.felipe_pereiradev.dentalconnect.model;
 
 
+import com.github.felipe_pereiradev.dentalconnect.enums.PersonType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,10 @@ public class Employee extends Person {
 
     @Column(name = "active", nullable = false)
     private boolean active = true;
+
+    public Employee(String name, String phone, PersonType personType, Clinic clinic, String jobTitle, User user) {
+        super(name, phone, personType, user);
+        this.clinic = clinic;
+        this.jobTitle = jobTitle;
+    }
 }

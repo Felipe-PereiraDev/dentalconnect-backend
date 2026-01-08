@@ -3,8 +3,6 @@ package com.github.felipe_pereiradev.dentalconnect.service;
 import com.github.felipe_pereiradev.dentalconnect.config.security.JwtServiceConfig;
 import com.github.felipe_pereiradev.dentalconnect.dto.jwt.TokenResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.user.UserLogin;
-import com.github.felipe_pereiradev.dentalconnect.dto.user.UserRegister;
-import com.github.felipe_pereiradev.dentalconnect.enums.RoleType;
 import com.github.felipe_pereiradev.dentalconnect.enums.UserStatusEnum;
 import com.github.felipe_pereiradev.dentalconnect.exception.DuplicateResourceException;
 import com.github.felipe_pereiradev.dentalconnect.exception.ForbiddenException;
@@ -12,6 +10,7 @@ import com.github.felipe_pereiradev.dentalconnect.exception.InvalidLoginExceptio
 import com.github.felipe_pereiradev.dentalconnect.model.Role;
 import com.github.felipe_pereiradev.dentalconnect.model.User;
 import com.github.felipe_pereiradev.dentalconnect.repository.UserRepository;
+import com.github.felipe_pereiradev.dentalconnect.utils.UuidGenerator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +38,8 @@ public class UserService {
 
     private final AuthenticationManager authenticationManager;
 
+    private final EmployeeService employeeService;
+
     public TokenResponseDTO authentication(UserLogin userLogin ) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -54,19 +55,16 @@ public class UserService {
     }
 
     @Transactional
-    public User createUser(UserRegister data) {
-        Optional<User> user = userRepository.findByEmail(data.email());
+    public User create(String email, String password, List<Role> roleList) {
+        Optional<User> user = userRepository.findByEmail(email);
 
         if (user.isPresent() && user.get().getStatus() != UserStatusEnum.PENDING) {
-            throw new DuplicateResourceException("The email %s is unavailable".formatted(data.email()));
+            throw new DuplicateResourceException("The email %s is unavailable".formatted(email));
         }
-
-        Role roleUser = roleService.getRole(RoleType.ROLE_USER);
-
         User newUser = new User(
-                data.email(),
-                passwordEncoder.encode(data.password()),
-                List.of(roleUser)
+                email,
+                passwordEncoder.encode(password),
+                roleList
         );
         return userRepository.save(newUser);
     }
