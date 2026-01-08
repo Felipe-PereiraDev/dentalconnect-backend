@@ -2,6 +2,7 @@ package com.github.felipe_pereiradev.dentalconnect.service;
 
 import com.github.felipe_pereiradev.dentalconnect.dto.clinic.ClinicRegistrationRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.employee.EmployeeRequestDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.patient.PatientRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.model.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class RegistrationService {
     private final RoleService roleService;
     private final ClinicService clinicService;
     private final AddressService addressService;
+    private final PatientService patientService;
 
     @Transactional
     public void registerClinicWithOwner(ClinicRegistrationRequestDTO data) {
@@ -37,5 +39,13 @@ public class RegistrationService {
         List<Role> roleList = roleService.getRoleList(List.of(ROLE_EMPLOYEE, ROLE_USER));
         User user = userService.create(data.email(), data.password(), roleList);
         Employee employee = employeeService.create(data.name(), data.phone(), data.jobTitle(), clinic, user);
+    }
+
+    @Transactional
+    public void registerPatient(PatientRequestDTO data) {
+        Address address = addressService.create(data.address());
+        List<Role> roleList = roleService.getRoleList(List.of(ROLE_PATIENT, ROLE_USER));
+        User user = userService.create(data.email(), data.password(), roleList);
+        Patient patient = patientService.create(data.name(), data.phone(), data.cpf(), address, user);
     }
 }

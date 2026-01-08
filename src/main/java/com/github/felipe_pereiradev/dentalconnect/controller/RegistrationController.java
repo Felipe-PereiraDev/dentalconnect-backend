@@ -2,6 +2,7 @@ package com.github.felipe_pereiradev.dentalconnect.controller;
 
 import com.github.felipe_pereiradev.dentalconnect.dto.clinic.ClinicRegistrationRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.employee.EmployeeRequestDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.patient.PatientRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,4 +30,11 @@ public class RegistrationController {
         registrationService.registerEmployee(data);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping(value = "/patient")
+    public ResponseEntity<?> registerPatient(@RequestBody @Validated PatientRequestDTO data) {
+        registrationService.registerPatient(data);
+        return ResponseEntity.ok().build();
+    }
+
 }
