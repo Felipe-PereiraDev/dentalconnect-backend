@@ -1,6 +1,7 @@
 package com.github.felipe_pereiradev.dentalconnect.model;
 
 
+import com.github.felipe_pereiradev.dentalconnect.enums.PersonType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "id", foreignKey = @ForeignKey(name = "dentist_fk", value = ConstraintMode.CONSTRAINT))
-public class Dentist extends Person{
+public class Dentist extends Person {
 
     @Column(name = "license_number", nullable = false)
     private String licenseNumber;
@@ -26,7 +27,7 @@ public class Dentist extends Person{
     @JoinColumn(name = "clinic_id", nullable = false,foreignKey = @ForeignKey(name = "clinic_fk", value = ConstraintMode.CONSTRAINT))
     private Clinic clinic;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "dentist_specialties",
             uniqueConstraints = @UniqueConstraint(columnNames =
@@ -50,4 +51,11 @@ public class Dentist extends Person{
 
     @Column(name = "active", nullable = false)
     private boolean active = true;
+
+    public Dentist(String name, String phone, PersonType personType, User user, Clinic clinic, String licenseNumber, List<Specialty> specialtyList) {
+        super(name, phone, personType, user);
+        this.clinic = clinic;
+        this.licenseNumber = licenseNumber;
+        this.specialtyList = specialtyList;
+    }
 }

@@ -1,6 +1,7 @@
 package com.github.felipe_pereiradev.dentalconnect.controller;
 
 import com.github.felipe_pereiradev.dentalconnect.dto.clinic.ClinicRegistrationRequestDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.dentist.DentistRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.employee.EmployeeRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.patient.PatientRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.service.RegistrationService;
@@ -34,6 +35,12 @@ public class RegistrationController {
     @PostMapping(value = "/patient")
     public ResponseEntity<?> registerPatient(@RequestBody @Validated PatientRequestDTO data) {
         registrationService.registerPatient(data);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "/dentist")
+    public ResponseEntity<?> registerDentist(@RequestBody @Validated DentistRequestDTO data) {
+        registrationService.registerDentist(data);
         return ResponseEntity.ok().build();
     }
 

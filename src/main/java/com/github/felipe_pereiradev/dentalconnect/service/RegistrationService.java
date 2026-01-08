@@ -1,6 +1,7 @@
 package com.github.felipe_pereiradev.dentalconnect.service;
 
 import com.github.felipe_pereiradev.dentalconnect.dto.clinic.ClinicRegistrationRequestDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.dentist.DentistRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.employee.EmployeeRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.patient.PatientRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.model.*;
@@ -9,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 import static com.github.felipe_pereiradev.dentalconnect.enums.RoleType.*;
 
@@ -23,6 +23,8 @@ public class RegistrationService {
     private final ClinicService clinicService;
     private final AddressService addressService;
     private final PatientService patientService;
+    private final DentistService dentistService;
+    private final SpecialtyService specialtyService;
 
     @Transactional
     public void registerClinicWithOwner(ClinicRegistrationRequestDTO data) {
@@ -47,5 +49,14 @@ public class RegistrationService {
         List<Role> roleList = roleService.getRoleList(List.of(ROLE_PATIENT, ROLE_USER));
         User user = userService.create(data.email(), data.password(), roleList);
         Patient patient = patientService.create(data.name(), data.phone(), data.cpf(), address, user);
+    }
+
+    @Transactional
+    public void registerDentist(DentistRequestDTO data) {
+        Clinic clinic = clinicService.findById(data.clinicId());
+        List<Role> roleList = roleService.getRoleList(List.of(ROLE_PATIENT, ROLE_USER));
+        User user = userService.create(data.email(), data.password(), roleList);
+        List<Specialty> specialtyList = specialtyService.findAllById(data.specialties());
+        Dentist dentist = dentistService.create(data.name(), data.phone(), data.licenseNumber(), clinic, user, specialtyList);
     }
 }
