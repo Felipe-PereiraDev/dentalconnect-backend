@@ -1,11 +1,13 @@
 package com.github.felipe_pereiradev.dentalconnect.exception;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.github.felipe_pereiradev.dentalconnect.dto.error.ApiError;
 import com.github.felipe_pereiradev.dentalconnect.dto.error.ErrorResponse;
 import com.github.felipe_pereiradev.dentalconnect.dto.error.FieldError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -59,6 +61,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ErrorResponse> handleForbiddenException(Exception ex, HttpServletRequest servletRequest) {
         return buildErrorResponse(HttpStatus.FORBIDDEN, ex, servletRequest);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        return ResponseEntity.badRequest().build();
     }
 
 
