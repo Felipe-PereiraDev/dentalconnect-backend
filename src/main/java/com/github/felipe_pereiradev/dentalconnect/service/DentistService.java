@@ -1,10 +1,9 @@
 package com.github.felipe_pereiradev.dentalconnect.service;
 
 import com.github.felipe_pereiradev.dentalconnect.enums.PersonType;
-import com.github.felipe_pereiradev.dentalconnect.exception.EntityNotFoundException;
+import com.github.felipe_pereiradev.dentalconnect.exception.ResourceNotFoundException;
 import com.github.felipe_pereiradev.dentalconnect.model.*;
 import com.github.felipe_pereiradev.dentalconnect.repository.DentistRepository;
-import com.github.felipe_pereiradev.dentalconnect.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +17,11 @@ public class DentistService {
 
     public Dentist create(String name, String phone, String licenseNumber, Clinic clinic, User user, List<Specialty> specialtyList) {
         if (dentistRepository.existsByLicenseNumber(licenseNumber)) {
-            throw new EntityNotFoundException("licenseNumber unavailable");
+            throw new ResourceNotFoundException("licenseNumber unavailable");
         }
 
         if (dentistRepository.existsByPhone(phone)) {
-            throw new EntityNotFoundException("phone unavailable");
+            throw new ResourceNotFoundException("phone unavailable");
         }
 
         Dentist dentist = new Dentist(

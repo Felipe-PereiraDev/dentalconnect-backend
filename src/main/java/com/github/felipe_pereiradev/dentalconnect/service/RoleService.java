@@ -1,7 +1,7 @@
 package com.github.felipe_pereiradev.dentalconnect.service;
 
 import com.github.felipe_pereiradev.dentalconnect.enums.RoleType;
-import com.github.felipe_pereiradev.dentalconnect.exception.EntityNotFoundException;
+import com.github.felipe_pereiradev.dentalconnect.exception.ResourceNotFoundException;
 import com.github.felipe_pereiradev.dentalconnect.model.Role;
 import com.github.felipe_pereiradev.dentalconnect.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class RoleService {
 
     public Role getRole(RoleType roleType) {
         return roleRepository.findByRoleType(roleType)
-                .orElseThrow(() -> new EntityNotFoundException("ROLE NOT EXISTS"));
+                .orElseThrow(() -> new ResourceNotFoundException("ROLE NOT EXISTS"));
     }
 
     public List<Role> getRoleList(List<RoleType> roleTypeList) {

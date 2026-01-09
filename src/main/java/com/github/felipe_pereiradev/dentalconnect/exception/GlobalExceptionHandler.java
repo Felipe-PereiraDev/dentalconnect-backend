@@ -1,16 +1,17 @@
 package com.github.felipe_pereiradev.dentalconnect.exception;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.github.felipe_pereiradev.dentalconnect.dto.error.ApiError;
 import com.github.felipe_pereiradev.dentalconnect.dto.error.ErrorResponse;
 import com.github.felipe_pereiradev.dentalconnect.dto.error.FieldError;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 
@@ -23,7 +24,7 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.CONFLICT, ex, servletRequest);
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEntityNotFoundException(Exception ex, HttpServletRequest servletRequest) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex, servletRequest);
     }
@@ -53,7 +54,12 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.CONFLICT, ex, servletRequest);
     }
 
-    @ExceptionHandler(BadRequestException.class)
+    @ExceptionHandler({
+            BadRequestException.class,
+            PropertyReferenceException.class,
+            MethodArgumentTypeMismatchException.class,
+            IllegalArgumentException.class
+    })
     public ResponseEntity<ErrorResponse> handleBadRequestException(Exception ex, HttpServletRequest servletRequest) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, ex, servletRequest);
     }

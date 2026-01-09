@@ -1,6 +1,6 @@
 package com.github.felipe_pereiradev.dentalconnect.config.security;
 
-import com.github.felipe_pereiradev.dentalconnect.exception.EntityNotFoundException;
+import com.github.felipe_pereiradev.dentalconnect.exception.ResourceNotFoundException;
 import com.github.felipe_pereiradev.dentalconnect.model.User;
 import com.github.felipe_pereiradev.dentalconnect.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class UserContextService {
         Jwt jwt = getTokenAuthenticatedUser();
         String email = jwt.getSubject();
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
 }
