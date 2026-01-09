@@ -1,6 +1,7 @@
 package com.github.felipe_pereiradev.dentalconnect.repository;
 
 import com.github.felipe_pereiradev.dentalconnect.model.Dentist;
+import com.github.felipe_pereiradev.dentalconnect.model.Specialty;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

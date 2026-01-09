@@ -2,6 +2,7 @@ package com.github.felipe_pereiradev.dentalconnect.model;
 
 
 import com.github.felipe_pereiradev.dentalconnect.enums.PersonType;
+import com.github.felipe_pereiradev.dentalconnect.exception.ConflictException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,5 +58,19 @@ public class Dentist extends Person {
         this.clinic = clinic;
         this.licenseNumber = licenseNumber;
         this.specialtyList = specialtyList;
+    }
+
+    public void addSpecialty(Specialty specialty) {
+        if (specialtyList.contains(specialty)) {
+            throw new ConflictException("specialty already added");
+        }
+        this.specialtyList.add(specialty);
+    }
+
+    public void removeSpecialty(Specialty specialty) {
+        if (!specialtyList.contains(specialty)) {
+            throw new ConflictException("specialty not associated");
+        }
+        this.specialtyList.remove(specialty);
     }
 }
