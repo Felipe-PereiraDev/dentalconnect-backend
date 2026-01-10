@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Table(name = "schedules")
@@ -19,11 +20,14 @@ public class Schedule {
     @Id
     private UUID id;
 
+    @Column(name = "date_at", nullable = false)
+    private LocalDate dateAt;
+
     @Column(name = "starts_at", nullable = false)
-    private LocalDateTime startsAt;
+    private LocalTime startsAt;
 
     @Column(name = "ends_at", nullable = false)
-    private LocalDateTime endsAt;
+    private LocalTime endsAt;
 
     @ManyToOne
     @JoinColumn(name = "dentist_id", nullable = false, foreignKey = @ForeignKey(name = "dentist_fk", value = ConstraintMode.CONSTRAINT))
@@ -33,11 +37,23 @@ public class Schedule {
     @JoinColumn(name = "clinic_id", nullable = false, foreignKey = @ForeignKey(name = "clinic_fk", value = ConstraintMode.CONSTRAINT))
     private Clinic clinic;
 
-    public Schedule(Clinic clinic, Dentist dentist, LocalDateTime endsAt, LocalDateTime startsAt) {
+    public Schedule(Clinic clinic, Dentist dentist, LocalDate dateAt, LocalTime startsAt, LocalTime endsAt) {
         this.id = UuidGenerator.generate();
         this.clinic = clinic;
         this.dentist = dentist;
-        this.endsAt = endsAt;
+        this.dateAt = dateAt;
         this.startsAt = startsAt;
+        this.endsAt = endsAt;
+
+    }
+
+    public void update(LocalTime startsAt, LocalTime endsAt) {
+        if (startsAt != null) {
+            this.startsAt = startsAt;
+        }
+
+        if (endsAt != null) {
+            this.endsAt = endsAt;
+        }
     }
 }

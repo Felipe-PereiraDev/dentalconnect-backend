@@ -74,5 +74,17 @@ public class DentistService {
         return dentistMapper.toResponseDTO(dentist);
     }
 
+    public Dentist findByDentistIdAndClinicId(UUID dentistId, UUID clinicId) {
+       return dentistRepository.findByIdAndClinicId(dentistId, clinicId)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("dentist not found")
+                );
+    }
 
+    public Dentist findById(UUID dentistId) {
+        if (!dentistRepository.existsById(dentistId)) {
+            throw new ResourceNotFoundException("dentist not found");
+        }
+        return dentistRepository.getReferenceById(dentistId);
+    }
 }

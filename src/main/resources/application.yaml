@@ -3,3 +3,8 @@ spring:
     name: dentalconnect
   profiles:
     active: dev
+server:
+  error:
+    include-stacktrace: never
+    include-message: NEVER
+    include-binding-errors: never

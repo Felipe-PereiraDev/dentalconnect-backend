@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface DentistRepository extends JpaRepository<Dentist, UUID> {
@@ -22,4 +23,7 @@ public interface DentistRepository extends JpaRepository<Dentist, UUID> {
        WHERE TRIM(d.licenseNumber) = TRIM(:licenseNumber)
        """)
     boolean existsByLicenseNumber(@Param("licenseNumber") String licenseNumber);
+
+    @Query(value = "SELECT d FROM Dentist d WHERE d.id = :dentistId and d.clinic.id = :clinicId")
+    Optional<Dentist> findByIdAndClinicId(@Param("dentistId") UUID dentistId, @Param("clinicId") UUID clinicId);
 }

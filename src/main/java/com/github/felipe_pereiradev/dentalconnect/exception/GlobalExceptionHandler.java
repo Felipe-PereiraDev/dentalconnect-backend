@@ -55,10 +55,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            BadRequestException.class,
-            PropertyReferenceException.class,
-            MethodArgumentTypeMismatchException.class,
-            IllegalArgumentException.class
+            BadRequestException.class
     })
     public ResponseEntity<ErrorResponse> handleBadRequestException(Exception ex, HttpServletRequest servletRequest) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, ex, servletRequest);
@@ -68,12 +65,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleForbiddenException(Exception ex, HttpServletRequest servletRequest) {
         return buildErrorResponse(HttpStatus.FORBIDDEN, ex, servletRequest);
     }
-
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<?> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
-    }
-
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException (MethodArgumentNotValidException ex, HttpServletRequest servletRequest) {
