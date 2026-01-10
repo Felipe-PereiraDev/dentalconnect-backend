@@ -1,8 +1,11 @@
 package com.github.felipe_pereiradev.dentalconnect.service;
 
 import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressRequestDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressResponseDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressUpdateDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.viacep.ViaCepResponse;
 import com.github.felipe_pereiradev.dentalconnect.exception.BadRequestException;
+import com.github.felipe_pereiradev.dentalconnect.exception.ResourceNotFoundException;
 import com.github.felipe_pereiradev.dentalconnect.integration.ViaCepClient;
 import com.github.felipe_pereiradev.dentalconnect.mapper.AddressMapper;
 import com.github.felipe_pereiradev.dentalconnect.model.Address;
@@ -24,6 +27,20 @@ public class AddressService {
         ViaCepResponse viaCepResponse = getAddressByZipCode(data.zipCode());
         Address address = addressMapper.toEntity(viaCepResponse, data.number(), data.complement());
         return addressRepository.save(address);
+    }
+
+    public AddressResponseDTO update(Address address, AddressUpdateDTO dto) {
+        ViaCepResponse viaCepResponse = getAddressByZipCode(dto.zipCode());
+        address.update(dto, viaCepResponse);
+        addressRepository.save(address);
+        return addressMapper.toResponse(address);
+    }
+
+    public Address findById(Long id) {
+        return addressRepository.findById(id)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("address not found")
+                );
     }
 
     private ViaCepResponse getAddressByZipCode(String cep) {

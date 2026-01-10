@@ -1,6 +1,9 @@
 package com.github.felipe_pereiradev.dentalconnect.service;
 
+import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressResponseDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressUpdateDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.clinic.ClinicRequestDTO;
+import com.github.felipe_pereiradev.dentalconnect.exception.ForbiddenException;
 import com.github.felipe_pereiradev.dentalconnect.exception.ResourceNotFoundException;
 import com.github.felipe_pereiradev.dentalconnect.mapper.ClinicMapper;
 import com.github.felipe_pereiradev.dentalconnect.model.Address;
@@ -16,6 +19,7 @@ import java.util.UUID;
 public class ClinicService {
     private final ClinicRepository clinicRepository;
     private final ClinicMapper clinicMapper;
+    private AddressService addressService;
 
     public Clinic createClinic(ClinicRequestDTO data, Address address) {
         Clinic clinic = new Clinic(
@@ -29,6 +33,17 @@ public class ClinicService {
 
     public Clinic findById(UUID id) {
         return clinicRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Clinic Not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("clinic Not found"));
     }
+
+    public AddressResponseDTO updateAddress(UUID clinicId, Long addressId, AddressUpdateDTO data) {
+        Clinic clinic = findById(clinicId);
+        Address address = addressService.findById(addressId);
+
+        if (!clinic.getAddress().equals(address)) {
+            throw new ForbiddenException("you don't have permission to update this address.");
+        }
+        return addressService.update(address, data);
+    }
+
 }
