@@ -1,5 +1,6 @@
 package com.github.felipe_pereiradev.dentalconnect.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.felipe_pereiradev.dentalconnect.utils.UuidGenerator;
 import jakarta.persistence.*;
 import lombok.Getter;

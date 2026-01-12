@@ -10,8 +10,11 @@ import com.github.felipe_pereiradev.dentalconnect.model.Address;
 import com.github.felipe_pereiradev.dentalconnect.model.Clinic;
 import com.github.felipe_pereiradev.dentalconnect.repository.ClinicRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,6 +32,10 @@ public class ClinicService {
                 data.phone()
         );
         return clinicRepository.save(clinic);
+    }
+
+    public List<Clinic> searchClinicsForPatient(Long specialtyId, LocalDate date, String state) {
+        return clinicRepository.searchClinicsForPatient(specialtyId, date, state);
     }
 
     public Clinic findById(UUID id) {

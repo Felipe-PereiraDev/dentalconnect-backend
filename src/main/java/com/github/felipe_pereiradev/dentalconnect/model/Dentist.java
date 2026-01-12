@@ -50,6 +50,9 @@ public class Dentist extends Person {
     )
     private List<Specialty> specialtyList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "dentist", fetch = FetchType.LAZY)
+    private List<Schedule> scheduleList = new ArrayList<>();
+
     @Column(name = "active", nullable = false)
     private boolean active = true;
 
