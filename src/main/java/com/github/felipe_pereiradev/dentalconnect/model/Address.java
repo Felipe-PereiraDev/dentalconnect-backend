@@ -2,6 +2,7 @@ package com.github.felipe_pereiradev.dentalconnect.model;
 
 
 import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressUpdateDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.integration.geocoding.GeocodingResult;
 import com.github.felipe_pereiradev.dentalconnect.dto.integration.viacep.ViaCepResponse;
 import jakarta.persistence.*;
 import lombok.*;
@@ -44,7 +45,7 @@ public class Address {
     @Column(nullable = false)
     private double latitude;
 
-    public void update(AddressUpdateDTO addressDTO, ViaCepResponse viaCepResponse) {
+    public void update(AddressUpdateDTO addressDTO, ViaCepResponse viaCepResponse, GeocodingResult geocodingResult) {
         if (addressDTO.number() != null && !addressDTO.number().isBlank()) {
             this.number = addressDTO.number();
         }
@@ -65,6 +66,13 @@ public class Address {
         }
         if (viaCepResponse.estado() != null && !viaCepResponse.estado().isBlank()) {
             this.state = viaCepResponse.estado();
+        }
+
+        if (geocodingResult.getLatitude() != 0.0) {
+            this.latitude = geocodingResult.getLatitude();
+        }
+        if (geocodingResult.getLongitude() != 0.0) {
+            this.longitude = geocodingResult.getLongitude();
         }
     }
 }

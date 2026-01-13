@@ -1,5 +1,6 @@
 package com.github.felipe_pereiradev.dentalconnect.model;
 
+import com.github.felipe_pereiradev.dentalconnect.enums.RoleType;
 import com.github.felipe_pereiradev.dentalconnect.enums.UserStatusEnum;
 import com.github.felipe_pereiradev.dentalconnect.utils.UuidGenerator;
 import jakarta.persistence.*;
@@ -81,6 +82,15 @@ public class User implements UserDetails {
 
     public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    public boolean containsRoleType(RoleType roleType) {
+        for (Role role : roles) {
+            if (role.getRoleType() == roleType) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

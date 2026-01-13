@@ -1,6 +1,5 @@
 package com.github.felipe_pereiradev.dentalconnect.controller;
 
-import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressUpdateDTO;
 import com.github.felipe_pereiradev.dentalconnect.service.PatientService;
