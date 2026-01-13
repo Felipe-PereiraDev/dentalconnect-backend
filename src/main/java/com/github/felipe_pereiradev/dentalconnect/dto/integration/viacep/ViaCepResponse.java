@@ -1,4 +1,4 @@
-package com.github.felipe_pereiradev.dentalconnect.dto.viacep;
+package com.github.felipe_pereiradev.dentalconnect.dto.integration.viacep;
 
 public record ViaCepResponse(
         String cep,

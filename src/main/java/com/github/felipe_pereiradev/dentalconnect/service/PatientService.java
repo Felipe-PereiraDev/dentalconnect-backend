@@ -7,10 +7,10 @@ import com.github.felipe_pereiradev.dentalconnect.exception.ConflictException;
 import com.github.felipe_pereiradev.dentalconnect.exception.ForbiddenException;
 import com.github.felipe_pereiradev.dentalconnect.exception.ResourceNotFoundException;
 import com.github.felipe_pereiradev.dentalconnect.model.Address;
-import com.github.felipe_pereiradev.dentalconnect.model.Clinic;
 import com.github.felipe_pereiradev.dentalconnect.model.Patient;
 import com.github.felipe_pereiradev.dentalconnect.model.User;
 import com.github.felipe_pereiradev.dentalconnect.repository.PatientRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +39,7 @@ public class PatientService {
         return patientRepository.save(patient);
     }
 
+    @Transactional
     public AddressResponseDTO updateAddress(UUID patientId, Long addressId, AddressUpdateDTO data) {
         Patient patient = findById(patientId);
         Address address = addressService.findById(addressId);

@@ -8,3 +8,5 @@ server:
     include-stacktrace: never
     include-message: NEVER
     include-binding-errors: never
+key:
+  geocoding-api: ${KEY_GEOCODING_API}

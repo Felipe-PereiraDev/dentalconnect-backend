@@ -2,7 +2,7 @@ package com.github.felipe_pereiradev.dentalconnect.mapper;
 
 
 import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressResponseDTO;
-import com.github.felipe_pereiradev.dentalconnect.dto.viacep.ViaCepResponse;
+import com.github.felipe_pereiradev.dentalconnect.dto.integration.viacep.ViaCepResponse;
 import com.github.felipe_pereiradev.dentalconnect.model.Address;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,7 +19,9 @@ public interface AddressMapper {
     @Mapping(source = "viaCepResponse.localidade", target = "city")
     @Mapping(source = "number", target = "number")
     @Mapping(source = "complement", target = "complement")
-    Address toEntity(ViaCepResponse viaCepResponse, String number, String complement);
+    @Mapping(source = "latitude", target = "latitude")
+    @Mapping(source = "longitude", target = "longitude")
+    Address toEntity(ViaCepResponse viaCepResponse, String number, String complement, double latitude, double longitude);
 
     AddressResponseDTO toResponse(Address address);
 

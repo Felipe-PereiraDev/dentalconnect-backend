@@ -9,6 +9,7 @@ import com.github.felipe_pereiradev.dentalconnect.mapper.ClinicMapper;
 import com.github.felipe_pereiradev.dentalconnect.model.Address;
 import com.github.felipe_pereiradev.dentalconnect.model.Clinic;
 import com.github.felipe_pereiradev.dentalconnect.repository.ClinicRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,7 @@ public class ClinicService {
                 .orElseThrow(() -> new ResourceNotFoundException("clinic Not found"));
     }
 
+    @Transactional
     public AddressResponseDTO updateAddress(UUID clinicId, Long addressId, AddressUpdateDTO data) {
         Clinic clinic = findById(clinicId);
         Address address = addressService.findById(addressId);

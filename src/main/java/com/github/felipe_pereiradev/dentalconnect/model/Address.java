@@ -2,7 +2,7 @@ package com.github.felipe_pereiradev.dentalconnect.model;
 
 
 import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressUpdateDTO;
-import com.github.felipe_pereiradev.dentalconnect.dto.viacep.ViaCepResponse;
+import com.github.felipe_pereiradev.dentalconnect.dto.integration.viacep.ViaCepResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,6 +37,12 @@ public class Address {
 
     @Column(nullable = false)
     private String city;
+
+    @Column(nullable = false)
+    private double longitude;
+
+    @Column(nullable = false)
+    private double latitude;
 
     public void update(AddressUpdateDTO addressDTO, ViaCepResponse viaCepResponse) {
         if (addressDTO.number() != null && !addressDTO.number().isBlank()) {
