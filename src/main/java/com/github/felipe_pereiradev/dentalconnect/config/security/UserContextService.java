@@ -1,6 +1,10 @@
 package com.github.felipe_pereiradev.dentalconnect.config.security;
 
+import com.github.felipe_pereiradev.dentalconnect.enums.RoleType;
+import com.github.felipe_pereiradev.dentalconnect.exception.BadRequestException;
+import com.github.felipe_pereiradev.dentalconnect.exception.ForbiddenException;
 import com.github.felipe_pereiradev.dentalconnect.exception.ResourceNotFoundException;
+import com.github.felipe_pereiradev.dentalconnect.model.Patient;
 import com.github.felipe_pereiradev.dentalconnect.model.User;
 import com.github.felipe_pereiradev.dentalconnect.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +34,18 @@ public class UserContextService {
         String email = jwt.getSubject();
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    public Patient getAuthenticatedPatient() {
+        Jwt jwt = getTokenAuthenticatedUser();
+        String email = jwt.getClaim("email");
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!user.containsRoleType(RoleType.ROLE_PATIENT)) {
+            throw new ForbiddenException("This resource is only available to patients");
+        }
+        return (Patient) user.getPerson();
     }
 
 }

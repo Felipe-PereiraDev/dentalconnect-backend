@@ -17,7 +17,6 @@ import com.github.felipe_pereiradev.dentalconnect.repository.AddressRepository;
 import feign.FeignException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,7 +41,8 @@ public class AddressService {
 
     public AddressResponseDTO update(Address address, AddressUpdateDTO dto) {
         ViaCepResponse viaCepResponse = getAddressByZipCode(dto.zipCode());
-        address.update(dto, viaCepResponse);
+        GeocodingResult geocodingResult = getGeocodingByZipCode(dto.zipCode());
+        address.update(dto, viaCepResponse, geocodingResult);
         addressRepository.save(address);
         return addressMapper.toResponse(address);
     }

@@ -2,7 +2,6 @@ package com.github.felipe_pereiradev.dentalconnect.dto.address;
 
 public record AddressResponseDTO(
         Long id,
-        Long personId,
         String zipCode,
         String street,
         String number,
