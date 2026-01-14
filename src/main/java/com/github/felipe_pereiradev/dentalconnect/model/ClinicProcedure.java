@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Table(name = "clinic_procedures")
@@ -35,6 +37,9 @@ public class ClinicProcedure {
     @ManyToOne
     @JoinColumn(name = "procedure_id", nullable = false, foreignKey = @ForeignKey(name = "procedure_fk", value = ConstraintMode.CONSTRAINT))
     private Procedure procedure;
+
+    @OneToMany(mappedBy = "clinicProcedure", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<DentistClinicProcedure> dentistClinicProcedureList = new ArrayList<>();
 
     public ClinicProcedure(Clinic clinic, long durationInMinutes, BigDecimal price, Procedure procedure) {
         this.id = UuidGenerator.generate();

@@ -4,7 +4,6 @@ import com.github.felipe_pereiradev.dentalconnect.model.Clinic;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,4 +37,12 @@ public interface ClinicRepository extends JpaRepository<Clinic, UUID> {
             @Param("radiusKm") double radiusKm
     );
 
+    @Query("""
+       SELECT COUNT(cp) > 0
+       FROM Clinic c
+       JOIN c.clinicProcedureList cp
+       WHERE c.id = :clinicId
+       AND cp.id = :procedureId
+       """)
+    boolean existsProcedureInClinic(@Param("clinicId") UUID clinicId, @Param("procedureId") UUID procedureId);
 }

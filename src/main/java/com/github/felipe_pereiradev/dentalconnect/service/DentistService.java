@@ -87,4 +87,11 @@ public class DentistService {
         }
         return dentistRepository.getReferenceById(dentistId);
     }
+
+    public Dentist findByClinicIdAnd(UUID dentistId) {
+        if (!dentistRepository.existsById(dentistId)) {
+            throw new ResourceNotFoundException("dentist not found");
+        }
+        return dentistRepository.getReferenceById(dentistId);
+    }
 }
