@@ -38,4 +38,12 @@ public interface ClinicRepository extends JpaRepository<Clinic, UUID> {
             @Param("radiusKm") double radiusKm
     );
 
+    @Query("""
+       SELECT COUNT(cp) > 0
+       FROM Clinic c
+       JOIN c.clinicProcedureList cp
+       WHERE c.id = :clinicId
+       AND cp.id = :procedureId
+       """)
+    boolean existsProcedureInClinic(@Param("clinicId") UUID clinicId, @Param("procedureId") UUID procedureId);
 }

@@ -45,6 +45,9 @@ public class Clinic {
     @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
     private List<Employee> employeeList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
+    private List<ClinicProcedure> clinicProcedureList = new ArrayList<>();
+
     public Clinic(Address address, String cnpj, String name, String phone) {
         this.id = UuidGenerator.generate();
         this.address = address;

@@ -8,17 +8,15 @@ import com.github.felipe_pereiradev.dentalconnect.dto.clinic.ClinicResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.exception.ForbiddenException;
 import com.github.felipe_pereiradev.dentalconnect.exception.ResourceNotFoundException;
 import com.github.felipe_pereiradev.dentalconnect.mapper.AddressMapper;
-import com.github.felipe_pereiradev.dentalconnect.mapper.ClinicMapper;
 import com.github.felipe_pereiradev.dentalconnect.model.Address;
 import com.github.felipe_pereiradev.dentalconnect.model.Clinic;
 import com.github.felipe_pereiradev.dentalconnect.model.Patient;
 import com.github.felipe_pereiradev.dentalconnect.repository.ClinicRepository;
+import com.github.felipe_pereiradev.dentalconnect.utils.GeoDistanceUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -57,7 +55,7 @@ public class ClinicService {
                         c.getPhone(),
                         c.getCnpj(),
                         addressMapper.toResponse(c.getAddress()),
-                        calculateRadiusKm(
+                        GeoDistanceUtils.calculateRadiusKm(
                                 c.getAddress().getLatitude(),
                                 c.getAddress().getLongitude(),
                                 patientAddress.getLatitude(),
@@ -81,25 +79,4 @@ public class ClinicService {
         }
         return addressService.update(address, data);
     }
-
-    private double calculateRadiusKm(double clinicLat, double clinicLon, double userLat, double userLon) {
-        final double EARTH_RADIUS_KM = 6371.0;
-
-        double latDistance = Math.toRadians(userLat - clinicLat);
-        double lonDistance = Math.toRadians(userLon - clinicLon);
-
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(clinicLat))
-                * Math.cos(Math.toRadians(userLat))
-                * Math.sin(lonDistance / 2)
-                * Math.sin(lonDistance / 2);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        double distance = EARTH_RADIUS_KM * c;
-        return  BigDecimal.valueOf(distance)
-                .setScale(1, RoundingMode.HALF_UP)
-                .doubleValue();
-    }
-
 }

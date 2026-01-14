@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Table(name = "appointments")
@@ -27,8 +29,11 @@ public class Appointment {
     @Column(name = "status", nullable = false)
     private AppointmentStatusEnum status;
 
-    @Column(name = "appointment_at", nullable = false)
-    private LocalDateTime appointmentAt;
+    @Column(name = "appointment_date", nullable = false)
+    private LocalDate appointmentDate;
+
+    @Column(name = "appointment_time", nullable = false)
+    private LocalTime appointmentTime;
 
     @ManyToOne
     @JoinColumn(name = "clinic_id", nullable = false, foreignKey = @ForeignKey(name = "clinic_fk", value = ConstraintMode.CONSTRAINT))
@@ -46,9 +51,16 @@ public class Appointment {
     @JoinColumn(name = "clinic_procedure_id", nullable = false, foreignKey = @ForeignKey(name = "clinic_procedure_fk", value = ConstraintMode.CONSTRAINT))
     private ClinicProcedure clinicProcedure;
 
-    public Appointment(LocalDateTime appointmentAt, Clinic clinic, Dentist dentist, Patient patient, BigDecimal price, ClinicProcedure clinicProcedure) {
+    public Appointment(LocalDate appointmentDate,
+                       LocalTime appointmentTime,
+                       Clinic clinic,
+                       Dentist dentist,
+                       Patient patient,
+                       BigDecimal price,
+                       ClinicProcedure clinicProcedure) {
         this.id = UuidGenerator.generate();
-        this.appointmentAt = appointmentAt;
+        this.appointmentDate = appointmentDate;
+        this.appointmentTime = appointmentTime;
         this.clinic = clinic;
         this.dentist = dentist;
         this.patient = patient;
