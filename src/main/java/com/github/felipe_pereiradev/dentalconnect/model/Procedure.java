@@ -1,5 +1,6 @@
 package com.github.felipe_pereiradev.dentalconnect.model;
 
+import com.github.felipe_pereiradev.dentalconnect.dto.procedure.ProcedureUpdateDTO;
 import com.github.felipe_pereiradev.dentalconnect.utils.UuidGenerator;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,9 +30,18 @@ public class Procedure {
     @Column(name = "active", nullable = false)
     private boolean active = true;
 
-    public Procedure(String description, String name) {
+    public Procedure(String name, String description) {
         this.id = UuidGenerator.generate();
         this.description = description;
         this.name = name;
+    }
+
+    public void update(ProcedureUpdateDTO data) {
+        if (data.name() != null && !data.name().isBlank()) {
+            this.name = data.name().trim();
+        }
+        if (data.description() != null && !data.description().isBlank()) {
+            this.description = data.description();
+        }
     }
 }
