@@ -51,6 +51,7 @@ public class ClinicService {
         );
         return clinicList.stream()
                 .map(c -> new ClinicResponseDTO(
+                        c.getId(),
                         c.getName(),
                         c.getPhone(),
                         c.getCnpj(),
