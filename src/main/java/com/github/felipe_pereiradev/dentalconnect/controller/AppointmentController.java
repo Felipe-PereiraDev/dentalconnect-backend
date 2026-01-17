@@ -14,11 +14,9 @@ import java.util.UUID;
 public class AppointmentController {
     private AppointmentService appointmentService;
 
-    @PostMapping(value = "/clinics/{clinicId}/patients/{patientId}")
-    public ResponseEntity<?> createAppointment(@PathVariable("patientId") UUID patientId,
-                                               @PathVariable("clinicId") UUID clinicId,
-                                               @RequestBody @Validated AppointmentRequestDTO data) {
-        AppointmentResponseDTO appointmentResponse = appointmentService.create(clinicId, patientId, data);
+    @PostMapping
+    public ResponseEntity<AppointmentResponseDTO> createAppointment(@RequestBody @Validated AppointmentRequestDTO data) {
+        AppointmentResponseDTO appointmentResponse = appointmentService.create(data);
         return ResponseEntity.ok(appointmentResponse);
     }
 }

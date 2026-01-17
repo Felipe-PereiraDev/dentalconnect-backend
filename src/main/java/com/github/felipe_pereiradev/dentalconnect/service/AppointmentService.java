@@ -4,15 +4,14 @@ import com.github.felipe_pereiradev.dentalconnect.dto.appointment.AppointmentReq
 import com.github.felipe_pereiradev.dentalconnect.dto.appointment.AppointmentResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.exception.BadRequestException;
 import com.github.felipe_pereiradev.dentalconnect.exception.UnprocessableEntityException;
+import com.github.felipe_pereiradev.dentalconnect.mapper.AppointmentMapper;
 import com.github.felipe_pereiradev.dentalconnect.model.*;
 import com.github.felipe_pereiradev.dentalconnect.repository.AppointmentRepository;
 import com.github.felipe_pereiradev.dentalconnect.utils.GeoDistanceUtils;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -21,19 +20,18 @@ public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
     private final PatientService patientService;
-    private final ClinicService clinicService;
-    private final DentistService dentistService;
     private final ClinicProcedureService clinicProcedureService;
+    private final AppointmentMapper appointmentMapper;
+    private final ClinicService clinicService;
 
-    @Transactional
-    public AppointmentResponseDTO create(UUID clinicId, UUID patientId, AppointmentRequestDTO data) {
-        Patient patient = patientService.findById(patientId);
-        Clinic clinic = clinicService.findById(clinicId);
-        ClinicProcedure clinicProcedure = clinicProcedureService.findByClinicIdAndProcedureId(clinicId, data.procedureId());
+    public AppointmentResponseDTO create(AppointmentRequestDTO data) {
+        Patient patient = patientService.findById(data.patientId());
+        Clinic clinic = clinicService.findById(data.clinicId());
+        ClinicProcedure clinicProcedure = clinicProcedureService.findByClinicIdAndProcedureId(clinic.getId(), data.procedureId());
         Dentist dentist = chooseDentist(clinicProcedure);
 
         if (isNotWithinRadius(clinic, patient, data.radiusKm())) {
-            throw new BadRequestException("clinic fora do raio de distância");
+            throw new BadRequestException("Clinic is outside the allowed distance radius");
         }
 
         Appointment appointment = new Appointment(
@@ -45,7 +43,8 @@ public class AppointmentService {
                 clinicProcedure.getPrice(),
                 clinicProcedure
         );
-        return null;
+        appointmentRepository.save(appointment);
+        return appointmentMapper.toResponseDTO(appointment);
     }
 
     private boolean isNotWithinRadius(Clinic clinic, Patient patient, double radiusKm) {

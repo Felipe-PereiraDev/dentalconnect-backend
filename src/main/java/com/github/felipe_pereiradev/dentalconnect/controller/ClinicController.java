@@ -2,11 +2,14 @@ package com.github.felipe_pereiradev.dentalconnect.controller;
 
 import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressUpdateDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.appointment.AppointmentRequestDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.appointment.AppointmentResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.clinic.ClinicResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.model.Clinic;
 import com.github.felipe_pereiradev.dentalconnect.service.ClinicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;

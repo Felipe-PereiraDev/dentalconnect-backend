@@ -12,6 +12,7 @@ import com.github.felipe_pereiradev.dentalconnect.model.Clinic;
 import com.github.felipe_pereiradev.dentalconnect.model.Dentist;
 import com.github.felipe_pereiradev.dentalconnect.model.Schedule;
 import com.github.felipe_pereiradev.dentalconnect.repository.ScheduleRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +27,9 @@ public class ScheduleService {
     private final DentistService dentistService;
     private final ScheduleMapper scheduleMapper;
 
-    public ScheduleResponseDTO create(UUID clinicId, UUID dentistId, ScheduleRequestDTO data) {
-        Dentist dentist = dentistService.findByDentistIdAndClinicId(dentistId, clinicId);
+    @Transactional
+    public ScheduleResponseDTO create(ScheduleRequestDTO data) {
+        Dentist dentist = dentistService.findByDentistIdAndClinicId(data.dentistId(), data.clinicId());
         Clinic clinic = dentist.getClinic();
         Schedule schedule = new Schedule(clinic, dentist, data.dateAt(), data.startsAt(), data.endsAt());
         if (scheduleRepository.existsOverlap(dentist.getId(), data.dateAt(), data.startsAt(), data.endsAt())) {

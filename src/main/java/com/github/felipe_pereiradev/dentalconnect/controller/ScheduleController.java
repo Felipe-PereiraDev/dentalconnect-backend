@@ -22,11 +22,9 @@ import java.util.UUID;
 public class ScheduleController {
     private final ScheduleService scheduleService;
 
-    @PostMapping(value = "/clinics/{clinicId}/dentists/{dentistId}")
-    public ResponseEntity<ScheduleResponseDTO> createSchedule(@PathVariable("clinicId") UUID clinicId,
-                                                              @PathVariable("dentistId") UUID dentistId,
-                                                              @RequestBody @Validated ScheduleRequestDTO data) {
-        ScheduleResponseDTO scheduleResponseDTO = scheduleService.create(clinicId, dentistId, data);
+    @PostMapping
+    public ResponseEntity<ScheduleResponseDTO> createSchedule(@RequestBody @Validated ScheduleRequestDTO data) {
+        ScheduleResponseDTO scheduleResponseDTO = scheduleService.create(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(scheduleResponseDTO);
     }
 

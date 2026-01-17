@@ -3,6 +3,8 @@ package com.github.felipe_pereiradev.dentalconnect.service;
 import com.github.felipe_pereiradev.dentalconnect.config.security.UserContextService;
 import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.address.AddressUpdateDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.appointment.AppointmentRequestDTO;
+import com.github.felipe_pereiradev.dentalconnect.dto.appointment.AppointmentResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.clinic.ClinicRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.clinic.ClinicResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.exception.ForbiddenException;
@@ -28,6 +30,7 @@ public class ClinicService {
     private final AddressMapper addressMapper;
     private final AddressService addressService;
     private final UserContextService userContextService;
+    private final AppointmentService appointmentService;
 
     public Clinic createClinic(ClinicRequestDTO data, Address address) {
         Clinic clinic = new Clinic(
