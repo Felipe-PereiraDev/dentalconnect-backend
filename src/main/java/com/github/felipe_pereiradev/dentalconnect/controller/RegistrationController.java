@@ -1,5 +1,6 @@
 package com.github.felipe_pereiradev.dentalconnect.controller;
 
+import com.github.felipe_pereiradev.dentalconnect.controller.Docs.RegistrationControllerDocs;
 import com.github.felipe_pereiradev.dentalconnect.dto.clinic.ClinicRegistrationRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.dentist.DentistRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.employee.EmployeeRequestDTO;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/signup")
 @RequiredArgsConstructor
-public class RegistrationController {
+public class RegistrationController implements RegistrationControllerDocs {
 
     private final RegistrationService registrationService;
 
