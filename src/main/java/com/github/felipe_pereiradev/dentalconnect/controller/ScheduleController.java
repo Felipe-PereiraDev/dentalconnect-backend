@@ -1,5 +1,6 @@
 package com.github.felipe_pereiradev.dentalconnect.controller;
 
+import com.github.felipe_pereiradev.dentalconnect.controller.Docs.ScheduleControllerDocs;
 import com.github.felipe_pereiradev.dentalconnect.dto.schedule.ScheduleRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.schedule.ScheduleResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.schedule.ScheduleTime;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = "/api/v1/schedules")
 @RequiredArgsConstructor
-public class ScheduleController {
+public class ScheduleController implements ScheduleControllerDocs {
     private final ScheduleService scheduleService;
 
     @PostMapping

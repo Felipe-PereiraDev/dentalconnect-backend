@@ -1,5 +1,6 @@
 package com.github.felipe_pereiradev.dentalconnect.controller;
 
+import com.github.felipe_pereiradev.dentalconnect.controller.Docs.SpecialtyControllerDocs;
 import com.github.felipe_pereiradev.dentalconnect.dto.specialty.SpecialtyRequestDTO;
 import com.github.felipe_pereiradev.dentalconnect.dto.specialty.SpecialtyResponseDTO;
 import com.github.felipe_pereiradev.dentalconnect.service.SpecialtyService;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/api/v1/specialties")
 @RequiredArgsConstructor
-public class SpecialtyController {
+public class SpecialtyController implements SpecialtyControllerDocs {
     private final SpecialtyService specialtyService;
 
     @PostMapping
